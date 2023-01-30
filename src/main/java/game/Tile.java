@@ -1,6 +1,11 @@
 package game;
 
-
+/**
+* The Tile class stores a number and does basic set/get operations used by the @see Board class.
+* 
+* @author Arthur Bosquetti
+* 
+*/
 public class Tile {
 	
 	private int EMPTY_TILE = 0;
@@ -30,7 +35,7 @@ public class Tile {
 		return number == otherTile.getNumber();
 	}
 	
-	public int nextNumber() {
+	public int getNextNumber() {
 		return 2*number;
 	}
 	

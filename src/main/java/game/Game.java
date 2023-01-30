@@ -2,6 +2,12 @@ package game;
 
 import java.util.Scanner;
 
+/**
+ * The Game class contains the game loop.
+ * 
+ * @author arthur
+ *
+ */
 public class Game {
 	
 	private static Board board;

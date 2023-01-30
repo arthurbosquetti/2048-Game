@@ -1,20 +1,22 @@
 package game;
 
 import java.util.Random;
+import visuals.TilePrinter;
 
 /**
 * The Board class is responsible for storing the @see Tiles and moving them around whenever moves
 * are made.
 * 
-* @author 	Arthur Bosquetti
-* @version	1.0 - Command line version
-* @since	2023-01-30
+* @author Arthur Bosquetti
+* 
 */
 public class Board {
 	
 	private Random random;
 	private Tile[][] board;
 	private int boardSize;
+	
+	private static TilePrinter tilePrinter = new TilePrinter();
 	
 	public Board(int boardSize) {
 		this.boardSize = boardSize;
@@ -64,7 +66,7 @@ public class Board {
 	public void displayBoard() {
 		for (int row = 0; row < boardSize; row++) {
 			for (int column = 0; column < boardSize; column++) {
-				System.out.print(" " + board[row][column] + " ");
+				tilePrinter.printColoredTile(board[row][column]);
 			}
 			System.out.println("\n");
 		}
@@ -174,6 +176,8 @@ public class Board {
 		int nextColumn = currentColumn + columnChange;
 		boolean hasMoved = false;
 		
+		if (board[currentRow][currentColumn].isEmpty()) return hasMoved; 
+		
 		while (board[nextRow][nextColumn].isEmpty()) {
 			board[nextRow][nextColumn].setNumber(board[currentRow][currentColumn].getNumber());
 			board[currentRow][currentColumn].clearTile();
@@ -188,10 +192,10 @@ public class Board {
 			nextColumn += columnChange;				
 			
 		}
-		if (!board[nextRow][nextColumn].isEmpty() && 
-				board[nextRow][nextColumn].equals(board[currentRow][currentColumn])) {
-			board[nextRow][nextColumn].setNumber(board[currentRow][currentColumn].nextNumber());
+		if (board[nextRow][nextColumn].equals(board[currentRow][currentColumn])) {
+			board[nextRow][nextColumn].setNumber(board[currentRow][currentColumn].getNextNumber());
 			board[currentRow][currentColumn].clearTile();
+			hasMoved = true;
 		}	
 		
 		return hasMoved;
