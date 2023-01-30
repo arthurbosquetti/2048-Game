@@ -125,7 +125,6 @@ public class Board {
 		return hasUpdated;
 	}
 	
-	
 	private boolean moveTile(int currentRow, int currentColumn, int rowChange, int columnChange) {
 		int nextRow = currentRow + rowChange;
 		int nextColumn = currentColumn + columnChange;

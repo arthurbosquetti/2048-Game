@@ -2,8 +2,6 @@ package game;
 
 import java.util.Scanner;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
-
 public class Game {
 	
 	private static Board board;
