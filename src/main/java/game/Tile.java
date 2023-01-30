@@ -1,5 +1,6 @@
 package game;
 
+
 public class Tile {
 	
 	private int EMPTY_TILE = 0;

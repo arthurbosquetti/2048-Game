@@ -16,10 +16,9 @@ public class Game {
 			move = scanner.nextLine();
 			if (board.makeMove(move.toLowerCase())) {
 				System.out.println("\n");
-				board.addNewNumber();
+				board.placeNewNumber();
 				board.displayBoard();				
 			}
-		
 		}
 	}
 }
