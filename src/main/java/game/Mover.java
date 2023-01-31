@@ -168,6 +168,7 @@ public class Mover {
 			currentTile.clearTile();
 			nextTile.setMerged(true);
 			mergedTiles.add(nextTile);
+			board.setScore(board.getScore() + nextTile.getNumber());
 			hasMerged = true;
 		}
 		return hasMerged;
