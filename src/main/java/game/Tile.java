@@ -1,15 +1,16 @@
 package game;
 
 /**
-* The Tile class stores a number and does basic set/get operations used by the @see Board class.
+* The Tile class stores a number and does basic set/get operations.
 * 
 * @author Arthur Bosquetti
 * 
 */
 public class Tile {
 	
-	private int EMPTY_TILE = 0;
+	private final int EMPTY_TILE = 0;
 	private int number;
+	private boolean merged = false;
 	
 	public Tile() {
 		this.number = EMPTY_TILE;
@@ -18,6 +19,7 @@ public class Tile {
 	public void setNumber(int newNumber) {
 		this.number = newNumber;
 	}
+	
 	public int getNumber() {
 		return number;
 	}
@@ -41,6 +43,13 @@ public class Tile {
 	
 	public void clearTile() {
 		this.number = EMPTY_TILE;
+	}	
+	
+	public boolean getMerged() {
+		return merged;
 	}
 	
+	public void setMerged(boolean merged) {
+		this.merged = merged;
+	}
 }

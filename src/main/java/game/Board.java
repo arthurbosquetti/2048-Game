@@ -1,11 +1,11 @@
 package game;
 
 import java.util.Random;
-import visuals.TilePrinter;
+
+import view.TilePrinter;
 
 /**
-* The Board class is responsible for storing the @see Tiles and moving them around whenever moves
-* are made.
+* The Board class is responsible for storing, generating, and displaying the @see Tiles.
 * 
 * @author Arthur Bosquetti
 * 
@@ -15,12 +15,14 @@ public class Board {
 	private Random random;
 	private Tile[][] board;
 	private int boardSize;
+	private int score;
 	
-	private static TilePrinter tilePrinter = new TilePrinter();
+	private TilePrinter tilePrinter;
 	
 	public Board(int boardSize) {
 		this.boardSize = boardSize;
-		random = new Random();
+		this.random = new Random();
+		this.tilePrinter = new TilePrinter();
 		createBoard();
 		placeNewNumber();
 		placeNewNumber();
@@ -40,7 +42,7 @@ public class Board {
 	 * This method places a new number on the board.
 	 */
 	public void placeNewNumber() {
-		int newNumber = createNewNumber();
+		int newNumber = generateNewNumber();
 		int row = random.nextInt(boardSize);
 		int column = random.nextInt(boardSize);
 		
@@ -58,7 +60,7 @@ public class Board {
 	 * 
 	 * @return the new number.
 	 */
-	private int createNewNumber() {
+	private int generateNewNumber() {
 		if (random.nextDouble(1) < 0.9) return 2;
 		else return 4;
 	}
@@ -71,139 +73,20 @@ public class Board {
 			System.out.println("\n");
 		}
 	}
-
-	public boolean makeMove(String move) {
-		switch (move) {
-		case "up":
-			return moveUp();
-		case "down":
-			return moveDown();
-		case "left":
-			return moveLeft();
-		case "right":
-			return moveRight();
-		default:
-			System.out.println("Invalid move choice. Please try again!");
-			return false;
-		}
+	
+	public int getSize() {
+		return boardSize;
 	}
 	
-	/**
-	 * Moves all tiles up starting from the top-most rows.
-	 * 
-	 * @return hasUpdated indicates whether any tile has moved on the board.
-	 */
-	private boolean moveUp() {
-		int rowChange = -1;
-		int columnChange = 0;
-		boolean hasUpdated = false;
-		
-		for (int row = 1; row < boardSize; row ++) {
-			for (int column = 0; column < boardSize; column ++) {
-				if (moveTile(row, column, rowChange, columnChange)) hasUpdated = true;
-			}
-		}
-		return hasUpdated;
+	public Tile getTile(int row, int column) {
+		return board[row][column];
 	}
 	
-	/**
-	 * Moves all tiles down starting from the bottom-most rows.
-	 * 
-	 * @return hasUpdated indicates whether any tile has moved on the board.
-	 */
-	private boolean moveDown() {
-		int rowChange = 1;
-		int columnChange = 0;
-		boolean hasUpdated = false;
-		
-		for (int row = boardSize - 2; row >= 0; row --) {
-			for (int column = 0; column < boardSize; column ++) {
-				if (moveTile(row, column, rowChange, columnChange)) hasUpdated = true;
-			}
-		}
-		return hasUpdated;
+	public void setScore(int newScore) {
+		score = newScore;
 	}
 	
-	/**
-	 * Moves all tiles left starting from the left-most columns.
-	 * 
-	 * @return hasUpdated indicates whether any tile has moved on the board.
-	 */
-	private boolean moveLeft() {
-		int rowChange = 0;
-		int columnChange = -1;
-		boolean hasUpdated = false;
-
-		for (int row = 0; row < boardSize; row ++) {
-			for (int column = 1; column < boardSize; column ++) {
-				if (moveTile(row, column, rowChange, columnChange)) hasUpdated = true;
-			}
-		}
-		return hasUpdated;
+	public int getScore() {
+		return score;
 	}
-	
-	/**
-	 * Moves all tiles left starting from the right-most columns.
-	 * 
-	 * @return hasUpdated indicates whether any tile has moved on the board.
-	 */
-	private boolean moveRight() {
-		int rowChange = 0;
-		int columnChange = 1;
-		boolean hasUpdated = false;
-		
-		for (int row = 0; row < boardSize; row ++) {
-			for (int column = boardSize - 2; column >= 0; column --) {
-				if (moveTile(row, column, rowChange, columnChange)) hasUpdated = true;
-			}
-		}
-		return hasUpdated;
-	}
-	
-	/**
-	 * This method handles the logic of moving a tile around the board. A tile moves in the desired
-	 * direction while the next tile is empty and in bounds, and merges with its neighbor if they
-	 * have the same number.
-	 * 
-	 * @param  currentRow		the current row of the tile.
-	 * @param  currentColumn	the current column of the tile.
-	 * @param  rowChange		the increment that guides the vertical movement of the tile.
-	 * @param  columnChange		the increment that guides the horizontal movement of the tile.
-	 * @return hasMoved			indicates whether the tile has moved on the board.
-	 */
-	private boolean moveTile(int currentRow, int currentColumn, int rowChange, int columnChange) {
-		int nextRow = currentRow + rowChange;
-		int nextColumn = currentColumn + columnChange;
-		boolean hasMoved = false;
-		
-		if (board[currentRow][currentColumn].isEmpty()) return hasMoved; 
-		
-		while (board[nextRow][nextColumn].isEmpty()) {
-			board[nextRow][nextColumn].setNumber(board[currentRow][currentColumn].getNumber());
-			board[currentRow][currentColumn].clearTile();
-			hasMoved = true;
-			
-			if (!isInBounds(nextRow + rowChange, nextColumn + columnChange)) break;
-			
-			// Update row and column of the tile.
-			currentRow = nextRow;
-			currentColumn = nextColumn;
-			nextRow += rowChange;
-			nextColumn += columnChange;				
-			
-		}
-		if (board[nextRow][nextColumn].equals(board[currentRow][currentColumn])) {
-			board[nextRow][nextColumn].setNumber(board[currentRow][currentColumn].getNextNumber());
-			board[currentRow][currentColumn].clearTile();
-			hasMoved = true;
-		}	
-		
-		return hasMoved;
-	}
-	
-	private boolean isInBounds(int row, int column) {
-		return (0 <= row & row < boardSize & 0 <= column & column < boardSize);
-	}	
-	
-	
 }
