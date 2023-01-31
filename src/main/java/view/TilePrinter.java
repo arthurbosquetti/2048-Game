@@ -1,10 +1,10 @@
-package visuals;
+package view;
 
 import java.util.HashMap;
 import game.Tile;
 
 /**
-* The TilePrinter class stores ANSI-coded colors to color code and pretty print @see Tiles.
+* The TilePrinter class stores ANSI-coded colors to color-code and pretty print @see Tiles.
 * 
 * @author Arthur Bosquetti
 * 
