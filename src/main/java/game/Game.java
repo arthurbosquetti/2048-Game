@@ -20,10 +20,12 @@ public class Game {
 		String move;
 
 		while(true) {
+			if (!mover.hasAvailableMoves()) break;
 			System.out.print("Please enter your move choice (up, down, left, right): ");
 			move = scanner.nextLine();
 			makeMove(move);
 		}
+		System.out.println("Game over!");
 	}
 	
 	private static void makeMove(String move) {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Mover {
 	
 	private Board board;
-	private int boardSize;
+	private final int boardSize;
 	private ArrayList<Tile> mergedTiles;
 	
 	public Mover(Board board) {
@@ -51,7 +51,6 @@ public class Mover {
 		return hasUpdated;
 	}
 	
-	
 	/**
 	 * Moves all tiles down starting from the bottom-most rows.
 	 * 
@@ -69,7 +68,6 @@ public class Mover {
 		}
 		return hasUpdated;
 	}
-	
 	
 	/**
 	 * Moves all tiles left starting from the left-most columns.
@@ -89,7 +87,6 @@ public class Mover {
 		return hasUpdated;
 	}
 	
-	
 	/**
 	 * Moves all tiles left starting from the right-most columns.
 	 * 
@@ -107,7 +104,6 @@ public class Mover {
 		}
 		return hasUpdated;
 	}
-	
 	
 	/**
 	 * This method handles the logic of moving a tile around the board. A tile moves in the desired
@@ -169,6 +165,7 @@ public class Mover {
 			nextTile.setMerged(true);
 			mergedTiles.add(nextTile);
 			board.setScore(board.getScore() + nextTile.getNumber());
+			board.setTileCount(board.getTileCount() - 1);
 			hasMerged = true;
 		}
 		return hasMerged;
@@ -182,4 +179,64 @@ public class Mover {
 			tile.setMerged(false);
 		}
 	}
+	
+	/**
+	 * This method checks whether there are any available moves left on the @see Board. 
+	 * 
+	 * The algorithm first iterates through the (boardSize - 1)x(boardSize - 1) top-left-most tiles 
+	 * of the board and checks whether they have any neighbors on their right or bottom that allows 
+	 * merging to occur. Then, it checks if the bottom-most tiles have any neighbors on their right
+	 * they can merge with. Finally, it checks for the right-most tiles if they have any bottom
+	 * neighbors they can merge with.
+	 * 
+	 * @return boolean indicating whether there are any available moves left on the board.
+	 */
+	public boolean hasAvailableMoves() {
+		if (!board.isFull()) return true;
+		
+		System.out.println("Checking for top-left-most tiles..");
+		if (findNeighborsTopLeftMostTiles()) return true;
+		
+		System.out.println("Checking for bottom-most tiles..");
+		if (findNeighborsBottomMostTiles()) return true;
+		
+		
+		System.out.println("Checking for right-most tiles..");
+		if (findNeighborsRightMostTiles()) return true;
+		
+		return false;
+	}
+	
+	private boolean findNeighborsTopLeftMostTiles() {
+		for (int row = 0; row < boardSize - 1; row++) {
+			for (int column = 0; column < boardSize - 1; column++) {
+				if (checkRightNeighbor(row, column)) return true;
+				if (checkBottomNeighbor(row, column)) return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean findNeighborsBottomMostTiles() {
+		for (int column = 0; column < boardSize - 1; column++) {
+			if (checkRightNeighbor(boardSize - 1, column)) return true;
+		}
+		return false;
+	}
+	
+	private boolean findNeighborsRightMostTiles() {
+		for (int row = 0; row < boardSize - 1; row++) {
+			if (checkBottomNeighbor(row, boardSize - 1)) return true;
+		}
+		return false;
+	}
+
+	private boolean checkRightNeighbor(int row, int column) {
+		return (board.getTile(row, column + 1).equals(board.getTile(row, column)));
+	}
+	
+	private boolean checkBottomNeighbor(int row, int column) {
+		return (board.getTile(row + 1, column).equals(board.getTile(row, column)));
+	}
+
 }

@@ -14,8 +14,9 @@ public class Board {
 	
 	private Random random;
 	private Tile[][] board;
-	private int boardSize;
+	private final int boardSize;
 	private int score;
+	private int tileCount;
 	
 	private TilePrinter tilePrinter;
 	
@@ -45,13 +46,14 @@ public class Board {
 		int newNumber = generateNewNumber();
 		int row = random.nextInt(boardSize);
 		int column = random.nextInt(boardSize);
-		
+				
 		while(!board[row][column].isEmpty()) {
 			row = random.nextInt(boardSize);
 			column = random.nextInt(boardSize);
 		}
 	
 		board[row][column].setNumber(newNumber);
+		tileCount += 1;
 	}
 	
 	/**
@@ -82,11 +84,23 @@ public class Board {
 		return board[row][column];
 	}
 	
-	public void setScore(int newScore) {
-		score = newScore;
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	public int getScore() {
 		return score;
+	}
+	
+	public void setTileCount(int tileCount) {
+		this.tileCount = tileCount;
+	}
+	
+	public int getTileCount() {
+		return tileCount;
+	}
+	
+	public boolean isFull() {
+		return (tileCount == boardSize*boardSize);
 	}
 }
