@@ -38,7 +38,7 @@ public class TilePrinter {
 	 * printing tiles with values up to 2048.
 	 */
 	private void fillHashMap() {
-		colorMap.put(0, ANSI_WHITE + "   0  " + ANSI_RESET);
+		colorMap.put(0, ANSI_WHITE + "      " + ANSI_RESET);
 		colorMap.put(2, ANSI_LIGHT_BEIGE + "   2  " + ANSI_RESET);
 		colorMap.put(4, ANSI_BEIGE + "   4  " + ANSI_RESET);
 		colorMap.put(8, ANSI_LIGHT_ORANGE + "   8  " + ANSI_RESET);
