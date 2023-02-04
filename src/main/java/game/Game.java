@@ -2,6 +2,8 @@ package game;
 
 import java.util.Scanner;
 
+import view.StartWindow;
+
 /**
  * The Game class contains the game loop.
  * 
@@ -14,6 +16,8 @@ public class Game {
 	private static Mover mover;
 
 	public static void main(String[] args) {
+		StartWindow startWindow = new StartWindow();
+		
 		board = new Board(4);
 		mover = new Mover(board);
 		Scanner scanner = new Scanner(System.in);
