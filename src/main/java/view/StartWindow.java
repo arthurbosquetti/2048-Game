@@ -44,6 +44,8 @@ public class StartWindow {
 			public void actionPerformed(ActionEvent e) {
 				boardSize = boardSizeSlider.getValue();
 				System.out.println("The board size is " + boardSize);
+				new GameWindow(boardSize);
+				startWindow.dispose();
 			}
 		});
 
